@@ -1,45 +1,138 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MiaPizzeria - Pedidos</title>
+    <title>Pizzaria Delivery</title>
+    <link rel="stylesheet" type="text/css" href="../static/style.css"/>
 </head>
 <body>
-    <div class="header">
-        <h1>Pedidos</h1>
+    <h1>Pizzaria Delivery</h1>
+    
+    <div class="form-group">
+        <label>Nome do Cliente:</label>
+        <input type="text" id="nomeCliente" required>
     </div>
-    <div class="content">
-        <form action="">
-            <fieldset>
-                <legend>Informações do Cliente</legend>
-                <label for="name">
-                    Nome do Cliente:<input type="text" id="name" name="client-name">
-                </label>
-                <label for="local-entrega">
-                    Local de Entrega:<input type="text" id="local-entrega" name="local-entrega">
-                </label>
-            </fieldset>
-            <fieldset>
-                <legend>Itens do Pedido</legend>
-                <button>Adicionar Item</button>
-                <table>
-                    <tr>
-                        <th>Descrição</th>
-                        <th>Valor</th>
-                        <th>Quantidade</th>
-                        <th>Subtotal</th>
-                        <th>Ações</th>
-                    </tr>
-                </table>
-            </fieldset>
-            <fieldset>
-                
-            </fieldset>
-        </form>
-    </div>
-    <div class="footer">
 
+    <div class="form-group">
+        <label>Local de Entrega:</label>
+        <input type="text" id="localEntrega" required>
     </div>
+
+    <div class="form-group">
+        <label>Tipo de Pedido:</label>
+        <label><input type="radio" name="tipoPedido" value="retirada" checked> Retirada</label>
+        <label><input type="radio" name="tipoPedido" value="entrega"> Entrega</label>
+    </div>
+
+    <div class="form-group" id="campoEntrega">
+        <label>Taxa de Entrega:</label>
+        <select id="taxaEntrega">
+            <option value="5">Zona Norte - R$ 5,00</option>
+            <option value="8">Zona Sul - R$ 8,00</option>
+            <option value="10">Zona Leste - R$ 10,00</option>
+        </select>
+    </div>
+
+    <button onclick="abrirModal()">Adicionar Item</button>
+
+    <table id="itensPedido">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Descrição</th>
+                <th>Quantidade</th>
+                <th>Valor Unitário</th>
+                <th>Total</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <div class="total">
+        <h3>Total do Pedido: R$ <span id="totalPedido">0.00</span></h3>
+    </div>
+
+    <!-- Modal -->
+    <div id="modalItem" class="modal">
+        <div class="modal-content">
+            <h3>Adicionar Item</h3>
+            <div class="form-group">
+                <label>Produto:</label>
+                <select id="produto" onchange="atualizarCamposPizza()">
+                    <option value="pizza">Pizza</option>
+                    <option value="guaranaantarctica1L">Guaraná Antarctica 1L (R$ 10,00)</option>
+                    <option value="guaranaantarctica2L">Guaraná Antarctica 2L (R$ 15,00)</option>
+                    <option value="cocacola1L">CocaCola 1L (R$ 10,00)</option>
+                    <option value="cocacola2L">CocaCola 2L (R$ 15,00)</option>
+                    <option value="guaranasantajoana2L">Guarana Santa Joana 2L (R$ 7,00)</option>
+                </select>
+            </div>
+
+            <div id="camposPizza">
+                <div class="form-group">
+                    <label>Quantidade de Sabores:</label>
+                    <label><input type="radio" name="sabores" value="1" checked> 1 Sabor</label>
+                    <label><input type="radio" name="sabores" value="2"> 2 Sabores</label>
+                </div>
+
+                <div class="form-group">
+                    <label>Sabor 1:</label>
+                    <select id="sabor1">
+                        <option value="mussarela">Mussarela (R$ 30,00)</option>
+                        <option value="bacon">Bacon (R$ 32,00)</option>
+                        <option value="calabresa">Calabresa (R$ 32,00)</option>
+                        <option value="calabresacatupiry">Calabresa com Catupiry (R$ 35,00)</option>
+                        <option value="calabresapaulistana">Calabresa Paulistana (R$ 30,00)</option>
+                        <option value="milho">Milho (R$ 30,00)</option>
+                        <option value="frango">Frango (R$ 35,00)</option>
+                        <option value="frangocatupiry">Frango com Catupiry (R$ 40,00)</option>
+                        <option value="franbacon">Franbacon (R$ 40,00)</option>
+                        <option value="frangocaipira">Frango Caipira (R$ 35,00)</option>
+                        <option value="carijo">Carijó (R$ 40,00)</option>
+                        <option value="presunto">Presunto (R$ 35,00)</option>
+                        <option value="bauru">Bauru (R$ 40,00)</option>
+                        <option value="portuguesa">Portuguesa (R$ 40,00)</option>
+                        <option value="sobrado">Sobrado (R$ 40,00)</option>
+                        <option value="nordestina">Nordestina (R$ 40,00)</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="campoSabor2">
+                    <label>Sabor 2:</label>
+                    <select id="sabor2">
+                        <option value="mussarela">Mussarela (R$ 30,00)</option>
+                        <option value="bacon">Bacon (R$ 32,00)</option>
+                        <option value="calabresa">Calabresa (R$ 32,00)</option>
+                        <option value="calabresacatupiry">Calabresa com Catupiry (R$ 35,00)</option>
+                        <option value="calabresapaulistana">Calabresa Paulistana (R$ 30,00)</option>
+                        <option value="milho">Milho (R$ 30,00)</option>
+                        <option value="frango">Frango (R$ 35,00)</option>
+                        <option value="frangocatupiry">Frango com Catupiry (R$ 40,00)</option>
+                        <option value="franbacon">Franbacon (R$ 40,00)</option>
+                        <option value="frangocaipira">Frango Caipira (R$ 35,00)</option>
+                        <option value="carijo">Carijó (R$ 40,00)</option>
+                        <option value="presunto">Presunto (R$ 35,00)</option>
+                        <option value="bauru">Bauru (R$ 40,00)</option>
+                        <option value="portuguesa">Portuguesa (R$ 40,00)</option>
+                        <option value="sobrado">Sobrado (R$ 40,00)</option>
+                        <option value="nordestina">Nordestina (R$ 40,00)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Quantidade:</label>
+                <input type="number" id="quantidade" value="1" min="1">
+            </div>
+
+            <button onclick="adicionarItem()">Adicionar ao Pedido</button>
+            <button onclick="fecharModal()">Cancelar</button>
+        </div>
+    </div>
+
+    <script src="../static/action.js"></script>
 </body>
 </html>
