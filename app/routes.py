@@ -1,5 +1,7 @@
 from flask import render_template, Blueprint, request
-from app import app
+from app import app, db
+from app.models import Pedidos, ItensPedido
+import sqlalchemy as sa
 from jinja2 import TemplateNotFound
 
 """API Pedidos
@@ -17,19 +19,35 @@ pedidos = Blueprint('pedidos',__name__, url_prefix='/pedidos')
 
 @pedidos.route('/', methods=['GET', 'POST'])
 def create_pedido():
-    if request.method == 'POST':
+    
+    if request.method == 'GET':
+        return 'deu certo!!'
         pass
-    pass
+    
+    data = request.get_json()
+    print(data)
+    pedido = Pedidos(nome_cliente = data['nomecliente'],
+                     telefone = data['telefone'],
+                     local_entrega = data['localentrega'],
+                     vlr_entrega = data['vlrentrega'],
+                     vlr_total = data['vlrtotal']
+            )
+    db.session.add(pedido)
+    db.session.commit()
+    id_pedido = pedido.id
+    return id_pedido
 
 @pedidos.route('/list', methods=['GET'])
 def list_pedidos():
-        pass
+    return 'deu certo!!'
+    pass
 
 @pedidos.route('/<int:id>/show', methods=['GET'])
 def show_pedido(id):
+    return 'deu certo!!'
     pass
 
 @pedidos.route('/<int:id>/cancel', methods=['UPDATE'])
 def cancel_pedido(id):
+    return 'deu certo!!'
     pass
-            
