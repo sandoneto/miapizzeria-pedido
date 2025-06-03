@@ -1,3 +1,4 @@
+import datetime
 from typing import Optional, List
 import sqlalchemy as sa
 import sqlalchemy.orm as so
@@ -9,8 +10,11 @@ class Pedidos(db.Model):
     telefone: so.Mapped[str] = so.mapped_column(sa.String(11), index=True)
     local_entrega: so.Mapped[str] = so.mapped_column(sa.String(50), index=True)
     itens_pedido: so.Mapped[List["ItensPedido"]] = so.relationship(back_populates="pedido")
+    status: so.Mapped[str] = so.mapped_column(sa.String(1), index=True, default='c')
     vlr_entrega: so.Mapped[float] = so.mapped_column(sa.Float, index=True)
     vlr_total: so.Mapped[float] = so.mapped_column(sa.Float, index=True)
+    criado: so.Mapped[datetime.datetime] = so.mapped_column(sa.TIMESTAMP, default=datetime.datetime.utcnow)
+    modificado: so.Mapped[datetime.datetime] = so.mapped_column(sa.TIMESTAMP, default=datetime.datetime.utcnow)
     
     def __repr__(self):
         return '<Pedido {}>'.format(self.id)

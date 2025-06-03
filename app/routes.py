@@ -29,13 +29,14 @@ def create_pedido():
     pedido = Pedidos(nome_cliente = data['nomecliente'],
                      telefone = data['telefone'],
                      local_entrega = data['localentrega'],
+                     status = data['status'],
                      vlr_entrega = data['vlrentrega'],
                      vlr_total = data['vlrtotal']
             )
     db.session.add(pedido)
     db.session.commit()
     id_pedido = pedido.id
-    return id_pedido
+    return str(id_pedido)
 
 @pedidos.route('/list', methods=['GET'])
 def list_pedidos():
